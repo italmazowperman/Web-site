@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Не лента — исчезающие блоки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0f1e;
+            font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Контейнер для скролла — обычный вертикальный поток, но элементы ведут себя иначе */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Каждый блок — фиксированной высоты, центрирован по ширине */
+        .scene {
+            width: 100%;
+            min-height: 100vh; /* Каждый блок на весь экран */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            will-change: transform, filter, opacity;
+            transition: all 0.1s linear; /* сглаживание, но анимацию меняем через JS */
+        }
+
+        /* Стили карточек */
+        .card {
+            max-width: 500px;
+            width: 85%;
+            padding: 3rem 2rem;
+            background: rgba(20, 30, 45, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+            text-align: center;
+            color: white;
+            transition: inherit;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #aaccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .badge {
+            margin-top: 1.5rem;
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Уникальные оформления */
+        .scene-1 .card { background: rgba(80, 40, 120, 0.7); border-left: 4px solid #ff77aa; }
+        .scene-2 .card { background: rgba(20, 100, 80, 0.7); border-right: 4px solid #77ffcc; }
+        .scene-3 .card { background: rgba(180, 70, 40, 0.7); border-top: 4px solid #ffaa44; }
+        .scene-4 .card { background: rgba(30, 60, 130, 0.7); border-bottom: 4px solid #88aaff; }
+
+        /* Индикатор скролла (просто для красоты) */
+        .scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            background: rgba(0,0,0,0.5);
+            width: fit-content;
+            margin: 0 auto;
+            padding: 6px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            z-index: 100;
+            font-family: monospace;
+        }
+
+        /* Просто красивый фон градиент */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, #1a2a3a, #03060c);
+            z-index: -2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <section class="scene scene-1" id="scene1">
+        <div class="card">
+            <h2>🧬 Размытие</h2>
+            <p>При прокрутке этот блок не едет вверх.<br>Он мягко теряет фокус и тает.</p>
+            <div class="badge">blur() + opacity</div>
+        </div>
+    </section>
+
+    <section class="scene scene-2" id="scene2">
+        <div class="card">
+            <h2>⬅️ Уползает влево</h2>
+            <p>Скользит в сторону, будто его сдувает ветром.<br>Поворачивается и исчезает.</p>
+            <div class="badge">translateX(-200%) + rotate</div>
+        </div>
+    </section>
+
+    <section class="scene scene-3" id="scene3">
+        <div class="card">
+            <h2>➡️ Уползает вправо</h2>
+            <p>Уходит за правый край, сжимаясь и блекнув.<br>Выглядит объёмно.</p>
+            <div class="badge">translateX(200%) + scale</div>
+        </div>
+    </section>
+
+    <section class="scene scene-4" id="scene4">
+        <div class="card">
+            <h2>✨ Затухание с поворотом</h2>
+            <p>Последний штрих — вращение в перспективе и растворение.<br>Никакого линейного скролла.</p>
+            <div class="badge">perspective + rotateY + fade</div>
+        </div>
+    </section>
+</div>
+
+<div class="scroll-hint">
+    ↓ Прокручивай ↓ — блоки не уезжают вверх как лента, а исчезают креативно
+</div>
+
+<script>
+    (function() {
+        // Получаем все сцены
+        const scenes = document.querySelectorAll('.scene');
+        
+        // Функция, которая применяет трансформации в зависимости от положения элемента относительно вьюпорта
+        function applyExitEffects() {
+            const windowHeight = window.innerHeight;
+            // Центральная зона — где элемент "полностью виден и не исчезает"
+            // Выход начинается, когда элемент отдаляется от центра.
+            // Для каждого блока считаем "прогресс исчезновения" (0 = четко виден, 1 = полностью скрыт)
+            
+            scenes.forEach((scene, idx) => {
+                const rect = scene.getBoundingClientRect();
+                const elementCenter = rect.top + rect.height / 2;
+                const viewportCenter = windowHeight / 2;
+                
+                // Расстояние от центра экрана (нормализованное)
+                // Максимальное расстояние, при котором элемент полностью исчезает (в пикселях)
+                const maxDistance = Math.max(windowHeight, rect.height) * 0.8; 
+                
+                let distance = Math.abs(elementCenter - viewportCenter);
+                let progress = Math.min(1, distance / maxDistance);
+                
+                // Плавность: если прогресс небольшой, то элемент почти нормален
+                // easing для более драматичного эффекта
+                let easeProgress = Math.pow(progress, 1.2);
+                
+                // В зависимости от класса сцены — разные стили исчезновения
+                if (scene.classList.contains('scene-1')) {
+                    // Размытие + прозрачность
+                    const blurValue = easeProgress * 20; // 0px -> 20px
+                    const opacityValue = 1 - easeProgress * 1.2;
+                    scene.style.filter = `blur(${blurValue}px)`;
+                    scene.style.opacity = Math.max(0, opacityValue);
+                    scene.style.transform = `scale(${1 - easeProgress * 0.1})`; // лёгкое сжатие
+                } 
+                else if (scene.classList.contains('scene-2')) {
+                    // Уползает влево с поворотом
+                    const translateX = -easeProgress * 150; // % не работает в px, используем vw через %
+                    // Но лучше через vw, но transform-origin: center
+                    const rotate = easeProgress * 45; // до 45 градусов
+                    const opacityValue = 1 - easeProgress * 1.2;
+                    scene.style.opacity = Math.max(0, opacityValue);
+                    scene.style.transform = `translateX(${translateX}vw) rotate(${rotate}deg)`;
+                }
+                else if (scene.classList.contains('scene-3')) {
+                    // Уползает вправо + масштабирование
+                    const translateX = easeProgress * 150;
+                    const scaleVal = 1 - easeProgress * 0.6;
+                    const opacityValue = 1 - easeProgress * 1.2;
+                    scene.style.opacity = Math.max(0, opacityValue);
+                    scene.style.transform = `translateX(${translateX}vw) scale(${scaleVal})`;
+                }
+                else if (scene.classList.contains('scene-4')) {
+                    // Вращение по Y (3D) + прозрачность
+                    const rotateY = easeProgress * 85; // до 85 градусов
+                    const opacityValue = 1 - easeProgress * 1.2;
+                    scene.style.opacity = Math.max(0, opacityValue);
+                    scene.style.transform = `perspective(600px) rotateY(${rotateY}deg) scale(${1 - easeProgress * 0.2})`;
+                    // дополнительно очень лёгкий сдвиг по X
+                }
+                
+                // Общая "чистота": если прогресс становится 1, то делаем pointer-events: none для невидимых блоков
+                if (easeProgress >= 0.98) {
+                    scene.style.pointerEvents = 'none';
+                    scene.style.visibility = 'visible'; // сохраняем место, но не кликабельно
+                } else {
+                    scene.style.pointerEvents = 'auto';
+                }
+            });
+        }
+        
+        // Функция для предотвращения накопления событий и плавности (requestAnimationFrame)
+        let ticking = false;
+        function onScrollOrResize() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    applyExitEffects();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        // Слушаем скролл и изменение размера окна
+        window.addEventListener('scroll', onScrollOrResize);
+        window.addEventListener('resize', onScrollOrResize);
+        
+        // Дополнительно при загрузке страницы и при изменении фокуса
+        window.addEventListener('load', () => {
+            applyExitEffects();
+        });
+        
+        // Стили для стабильности: убираем стандартные transition, чтобы дёрганий не было (но можно добавить базовый transition для плавности)
+        // Добавим небольшой transition только для эффектов — чтобы анимация была мягче, но без лагов.
+        // Но учти: мы управляем transform/opacity/filter напрямую, и небольшой transition сгладит резкие скачки при быстром скролле
+        // Дадим каждому блоку плавный transition 200ms для filter/transform/opacity (будет приятно)
+        scenes.forEach(scene => {
+            scene.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.2s ease, filter 0.2s ease';
+        });
+        
+        // Вызовем сразу для установки начальных состояний
+        applyExitEffects();
+    })();
+</script>
+
+</body>
+</html>
