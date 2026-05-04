@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>LOGISTIQO | Современная логистика</title>
-    <!-- Google Fonts + Font Awesome -->
+    <title>LOGISTIQO | Умная логистика будущего</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -16,7 +15,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fbfdfe;
+            background: #fbfbfe;
             color: #111827;
             overflow-x: hidden;
             scroll-behavior: smooth;
@@ -24,461 +23,411 @@
 
         /* Кастомный скролл */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #e2e8f0;
+            background: #eef2f5;
         }
         ::-webkit-scrollbar-thumb {
-            background: #f97316;
+            background: #1e3a5f;
             border-radius: 10px;
         }
 
-        /* Анимации при загрузке */
+        /* Анимации появления */
         @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(35px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
         @keyframes scaleGlow {
-            0% { opacity: 0; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+            50% { box-shadow: 0 20px 35px rgba(30,58,95,0.15); }
+            100% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         }
 
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s ease;
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-
         .animate-on-scroll.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate(0, 0) !important;
         }
 
-        /* Навигация — стеклянная */
-        .navbar {
+        /* Хедер с блюром */
+        .header {
             position: fixed;
-            top: 20px;
-            left: 5%;
-            right: 5%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border-radius: 60px;
-            padding: 0.8rem 2rem;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.5);
-            transition: all 0.3s;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(30,58,95,0.1);
         }
-
         .logo {
-            font-size: 1.7rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #f97316, #ea580c);
+            background: linear-gradient(135deg, #1e3a5f, #2b5a8c);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.5px;
         }
-
         .nav-links {
             display: flex;
             gap: 2rem;
+            font-weight: 500;
         }
         .nav-links a {
             text-decoration: none;
-            font-weight: 600;
-            color: #1e293b;
+            color: #1f2a44;
             transition: 0.2s;
         }
-        .nav-links a:hover {
-            color: #f97316;
+        .nav-links a:hover { color: #1e3a5f; border-bottom: 2px solid #1e3a5f; padding-bottom: 4px; }
+        .contact-btn {
+            background: #1e3a5f;
+            color: white !important;
+            padding: 8px 22px;
+            border-radius: 40px;
+            transition: 0.2s;
         }
+        .contact-btn:hover { background: #0f2a46; transform: scale(1.02); }
 
-        /* Главный Hero */
+        /* Hero секция */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 8rem 6% 4rem;
-            background: linear-gradient(145deg, #ffffff 0%, #fef4e8 100%);
+            padding: 7rem 5% 5rem;
+            background: linear-gradient(125deg, #ffffff 40%, #eef3fc 100%);
             position: relative;
             overflow: hidden;
         }
-        .hero::before {
-            content: "⚡";
-            font-size: 30vw;
-            position: absolute;
-            right: -5vw;
-            bottom: -10vw;
-            opacity: 0.03;
-            pointer-events: none;
-        }
         .hero-content {
             flex: 1;
-            min-width: 280px;
+            animation: fadeUp 0.9s ease-out;
         }
         .hero-content h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.6rem, 6vw, 4.8rem);
             font-weight: 800;
             line-height: 1.2;
-            background: linear-gradient(125deg, #0f172a, #f97316);
+            background: linear-gradient(to right, #0b2b44, #1b5a8c);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1.5rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            color: #2c3e50;
+            max-width: 550px;
         }
         .hero-stats {
             display: flex;
             gap: 2rem;
-            margin: 2rem 0;
+            margin-top: 2rem;
         }
         .stat {
-            background: rgba(249, 115, 22, 0.1);
-            padding: 0.8rem 1.5rem;
-            border-radius: 40px;
-            backdrop-filter: blur(4px);
-        }
-        .stat h3 { font-size: 1.8rem; font-weight: 800; color: #f97316; }
-        .btn-primary {
-            background: #f97316;
-            border: none;
-            padding: 14px 36px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 14px rgba(249,115,22,0.3);
-        }
-        .btn-primary:hover {
-            background: #ea580c;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(249,115,22,0.4);
-        }
-
-        /* Секции общие */
-        section {
-            padding: 5rem 6%;
-        }
-        .section-title {
-            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
+            font-size: 1.5rem;
         }
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: #f97316;
-            border-radius: 4px;
+        .stat span { font-size: 2.2rem; color: #1e3a5f; }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+            animation: slideInRight 0.8s ease;
         }
+        .hero-image i { font-size: 18rem; color: #1e3a5f; opacity: 0.2; }
 
-        /* Карточки услуг (3D-эффект при ховере) */
+        /* Секция услуг */
+        .services {
+            padding: 6rem 5%;
+            text-align: center;
+            background: #ffffff;
+        }
+        .services h2, .testimonials h2, .faq h2, .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
         .services-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
             justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
         }
         .service-card {
             background: white;
-            border-radius: 2rem;
             padding: 2rem;
+            border-radius: 2rem;
             width: 260px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            transition: all 0.35s ease;
             border: 1px solid rgba(0,0,0,0.05);
-            text-align: center;
         }
-        .service-card:hover {
-            transform: translateY(-15px) rotateX(4deg);
-            box-shadow: 0 30px 40px rgba(249,115,22,0.15);
-            border-color: #f97316;
-        }
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
+        .service-card:hover { transform: translateY(-12px); box-shadow: 0 30px 40px -15px rgba(30,58,95,0.2); }
+        .service-card i { font-size: 2.8rem; color: #1e3a5f; margin-bottom: 1rem; }
 
-        /* Отзывы */
+        /* Почему выбирают нас */
+        .why-us {
+            background: #f7fafd;
+            padding: 5rem 5%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+        .why-content { flex: 1; }
+        .why-numbers { display: flex; gap: 2rem; margin-top: 2rem; }
+
+        /* Отзывы с каруселью */
         .testimonials {
-            background: #0f172a;
-            color: white;
-            border-radius: 3rem;
-            margin: 2rem 6%;
-            padding: 3rem;
+            padding: 5rem 5%;
+            background: white;
         }
         .testimonial-grid {
             display: flex;
             gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 1rem 0.5rem;
         }
         .testimonial-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(8px);
-            padding: 2rem;
+            min-width: 320px;
+            background: #ffffff;
             border-radius: 2rem;
-            flex: 1;
+            padding: 2rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+            scroll-snap-align: start;
+            border: 1px solid #eef2f8;
         }
 
-        /* FAQ аккордеон */
+        /* FAQ */
+        .faq {
+            padding: 5rem 5%;
+            background: #f9fcff;
+        }
         .faq-item {
             background: white;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-            padding: 1rem 1.5rem;
+            margin: 1rem auto;
+            max-width: 900px;
+            border-radius: 1.2rem;
+            padding: 1.2rem 2rem;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             transition: 0.2s;
         }
-        .faq-question {
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            color: #475569;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            margin-top: 1rem;
-        }
+        .faq-question { font-weight: 700; font-size: 1.2rem; display: flex; justify-content: space-between; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: #4a5568; }
+        .faq-item.active .faq-answer { max-height: 120px; margin-top: 1rem; }
 
-        /* Футер */
+        /* CTA + финальные блоки */
+        .cta-section {
+            background: linear-gradient(115deg, #1e2f44, #102433);
+            color: white;
+            padding: 4rem 5%;
+            text-align: center;
+        }
+        .cta-button {
+            background: #ffb347;
+            padding: 12px 34px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #1e2f44;
+            transition: 0.2s;
+        }
         footer {
-            background: #0a0f1c;
-            color: #94a3b8;
-            padding: 3rem 6%;
+            background: #0a1822;
+            color: #cddfe7;
+            padding: 3rem 5%;
             text-align: center;
-        }
-
-        /* Магические блоки (исчезают при скролле нетрадиционно) */
-        .magic-stats {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            background: white;
-            border-radius: 2rem;
-            padding: 2rem;
-            margin: 2rem 0;
-            transition: all 0.2s linear;
-        }
-        .magic-item {
-            text-align: center;
-            flex: 1;
-            transition: all 0.3s ease;
         }
 
         @media (max-width: 800px) {
-            .navbar { padding: 0.5rem 1rem; }
-            .nav-links { gap: 1rem; font-size: 0.8rem; }
-            .hero { flex-direction: column; text-align: center; }
+            .hero { flex-direction: column; text-align: center; gap: 2rem; }
+            .nav-links { display: none; }
+            .hero-stats { justify-content: center; }
         }
     </style>
 </head>
 <body>
-
-<nav class="navbar">
-    <div class="logo">LOGISTIQO</div>
-    <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Discover</a>
-        <a href="#">Contact</a>
-    </div>
-</nav>
-
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>TAKE YOUR SHIPPING<br>TO THE NEXT LEVEL</h1>
-        <p style="font-size: 1.2rem; max-width: 500px;">Simplify logistics, reduce costs, and deliver faster with our all-in-one shipping management platform.</p>
-        <div class="hero-stats">
-            <div class="stat"><h3>15+ YR</h3><p>of shipping expertise</p></div>
-            <div class="stat"><h3>30+ CO</h3><p>Countries Covered</p></div>
-            <div class="stat"><h3>60K+ TN</h3><p>Cargo handled</p></div>
+    <header class="header">
+        <div class="logo">LOGISTIQO</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Discover</a>
+            <a href="#">Destinations</a>
+            <a href="#" class="contact-btn">Contact</a>
         </div>
-        <button class="btn-primary" id="getQuoteBtn">GET A QUOTE →</button>
-    </div>
-    <div style="flex:1; min-width: 200px; text-align: center;">
-        <i class="fas fa-shipping-fast" style="font-size: 12rem; color: #f97316; opacity: 0.7;"></i>
-    </div>
-</section>
+    </header>
 
-<!-- Services -->
-<section id="services">
-    <div class="animate-on-scroll">
-        <span style="color:#f97316; font-weight: bold;">OUR SERVICES #1</span>
-        <h2 class="section-title">EXPLORE OUR SERVICES</h2>
-    </div>
-    <div class="services-grid">
-        <div class="service-card animate-on-scroll"><div class="service-icon">🚛</div><h3>Road Freight</h3><p>Fast & reliable trucking</p></div>
-        <div class="service-card animate-on-scroll"><div class="service-icon">✈️</div><h3>Air Cargo</h3><p>Global express delivery</p></div>
-        <div class="service-card animate-on-scroll"><div class="service-icon">🚢</div><h3>Sea Freight</h3><p>Cost-effective shipping</p></div>
-        <div class="service-card animate-on-scroll"><div class="service-icon">🏭</div><h3>Warehousing</h3><p>Smart inventory</p></div>
-    </div>
-</section>
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>TAKE YOUR SHIPPING TO THE NEXT LEVEL</h1>
+                <p>Simplify logistics, reduce costs, and deliver faster with our all-in-one shipping management platform.</p>
+                <div class="hero-stats">
+                    <div class="stat"><span>15+</span> YR <br>of expertise</div>
+                    <div class="stat"><span>30+</span> CO <br>Countries Covered</div>
+                    <div class="stat"><span>60K+</span> TN <br>Cargo worldwide</div>
+                </div>
+                <button style="margin-top: 2rem; background:#1e3a5f; border:none; padding:12px 32px; border-radius:40px; color:white; font-weight:600;">Get a Quote →</button>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-ship"></i>
+            </div>
+        </section>
 
-<!-- WHY CHOOSE US + магическая статистика (не лента) -->
-<section style="background: #fef9f2;">
-    <div class="animate-on-scroll">
-        <h2 class="section-title">WHY BUSINESSES CHOOSE US</h2>
-        <p>We deliver logistics solutions that move your business forward, simplifying shipping.</p>
-    </div>
-    <!-- Эффект: эти цифры при скролле будут "уползать" и исчезать стильно -->
-    <div class="magic-stats" id="magicStats">
-        <div class="magic-item" data-effect="left"><i class="fas fa-globe" style="font-size: 2rem; color:#f97316;"></i><h3>98%</h3><p>On-Time Delivery</p></div>
-        <div class="magic-item" data-effect="blur"><i class="fas fa-headset" style="font-size: 2rem;"></i><h3>24/7</h3><p>Support</p></div>
-        <div class="magic-item" data-effect="scale"><i class="fas fa-chart-line"></i><h3>45%</h3><p>Cost Reduction</p></div>
-    </div>
-    <button id="resetStatsBtn" style="background: transparent; border:1px solid #f97316; border-radius:40px; padding: 8px 20px; cursor:pointer;">⟳ Reset Magic</button>
-</section>
+        <!-- OUR SERVICES -->
+        <section class="services">
+            <p style="color:#1e3a5f; font-weight:600;">OUR SERVICES #1</p>
+            <h2>EXPLORE OUR SERVICES</h2>
+            <div class="services-grid">
+                <div class="service-card"><i class="fas fa-plane"></i><h3>Air Freight</h3><p>Fast global air cargo</p></div>
+                <div class="service-card"><i class="fas fa-truck"></i><h3>Road Transport</h3><p>Reliable land delivery</p></div>
+                <div class="service-card"><i class="fas fa-warehouse"></i><h3>Warehousing</h3><p>Smart storage solutions</p></div>
+                <div class="service-card"><i class="fas fa-passport"></i><h3>Customs Clearance</h3><p>Seamless border crossing</p></div>
+            </div>
+        </section>
 
-<!-- Testimonials -->
-<div class="testimonials">
-    <div class="animate-on-scroll"><span>⭐️ WHAT OUR CLIENTS SAY</span><h2 style="color:white;">WORDS FROM THE ONES WHO KNOW US BEST</h2></div>
-    <div class="testimonial-grid">
-        <div class="testimonial-card"><i class="fas fa-quote-left" style="color:#f97316;"></i><p>Working with LOGISTIQO felt less like logistics and more like a creative partnership. Every shipment just hit right.</p><h4>David Wilson</h4><span>Business Consultant</span></div>
-        <div class="testimonial-card"><i class="fas fa-quote-left" style="color:#f97316;"></i><p>They turned our supply chain around. Incredible efficiency.</p><h4>Dina A. Qureshi</h4><span>CEO, Epicurious</span></div>
-    </div>
-    <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 2rem;"><span>Sisyphus</span><span>MGM</span><span>Epicurious</span></div>
-</div>
+        <!-- WHY BUSINESSES CHOOSE US -->
+        <section class="why-us">
+            <div class="why-content">
+                <h2>WHY BUSINESSES CHOOSE US FOR THEIR LOGISTICS & SHIPPING</h2>
+                <p>We deliver logistics solutions that move your business forward, simplifying shipping so you can focus on growth.</p>
+                <div class="why-numbers">
+                    <div><strong style="font-size:2rem;">99%</strong><br>Satisfaction</div>
+                    <div><strong style="font-size:2rem;">24/7</strong><br>Support</div>
+                </div>
+                <p style="margin-top:1rem;">— Dina A Qureshi</p>
+            </div>
+            <div style="flex:1; text-align:center;"><i class="fas fa-chart-line" style="font-size:12rem; color:#cddfe7;"></i></div>
+        </section>
 
-<!-- FAQ -->
-<section style="background: white;">
-    <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
-    <div id="faqContainer">
-        <div class="faq-item"><div class="faq-question">1. What services does LOGISTIQO provide? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">We offer full-service logistics including door freight, air cargo, road transport, warehousing, and customs clearance.</div></div>
-        <div class="faq-item"><div class="faq-question">2. Do you handle international shipments? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Absolutely. We operate across 35+ countries with trusted partners, ensuring global support.</div></div>
-        <div class="faq-item"><div class="faq-question">3. How do I track my shipment? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">You’ll receive a unique tracking ID for real-time updates on your carrier’s location.</div></div>
-        <div class="faq-item"><div class="faq-question">4. How fast can I get a shipping quote? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Request an instant quote through our website; we’ll help you find the best solution.</div></div>
-    </div>
-</section>
+        <!-- WHAT OUR CLIENTS SAY + ЛОГОТИПЫ -->
+        <section class="testimonials">
+            <h2>WHAT OUR CLIENTS SAY</h2>
+            <p style="margin-bottom:2rem;">WORDS FROM THE ONES WHO KNOW US BEST</p>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <i class="fas fa-star" style="color:#ffb347;"></i> <strong>+99% Achieving Excellence</strong>
+                    <p>"Working with LOGISTIQO felt like building with a creative partner. Every visual, every word just hit right."</p>
+                    <h4>David Wilson</h4>
+                    <small>Business Consultant</small>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fas fa-building"></i>
+                    <p>"Reliable, fast, transparent. They transformed our supply chain."</p>
+                    <h4>MGM Logistics</h4>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fas fa-globe"></i>
+                    <p>"Global coverage with local care. Highly recommend."</p>
+                    <h4>Epicurious</h4>
+                </div>
+            </div>
+        </section>
 
-<!-- CTA -->
-<section style="text-align: center; background: linear-gradient(115deg, #f97316, #ea580c); color: white; border-radius: 3rem; margin: 2rem 6%;">
-    <h2>READY TO MOVE YOUR BUSINESS FORWARD?</h2>
-    <p style="margin: 1rem;">Tailored logistics strategies for your timeline and budget.</p>
-    <button class="btn-primary" style="background: white; color:#f97316;" id="ctaBtn">GET A QUOTE →</button>
-    <div style="margin-top: 2rem;"><i class="fas fa-headset"></i> 24/7 Tracking & Support</div>
-</section>
+        <!-- FREQUENTLY ASKED QUESTIONS -->
+        <section class="faq">
+            <h2>FREQUENTLY ASKED QUESTIONS</h2>
+            <div class="faq-item">
+                <div class="faq-question">📦 What services does LOGISTIQO provide? <span>+</span></div>
+                <div class="faq-answer">We offer full-service logistics including door freight, air cargo, road transport, warehousing, and customs clearance.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🌍 Do you handle international shipments? <span>+</span></div>
+                <div class="faq-answer">Absolutely. We operate across 35+ countries with trusted partners, ensuring end-to-end global logistics support.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🔍 How do I track my shipment? <span>+</span></div>
+                <div class="faq-answer">You’ll receive a unique tracking ID after dispatch. Use it for real-time updates on location and delivery status.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">⚡ How fast can I get a shipping quote? <span>+</span></div>
+                <div class="faq-answer">Request an instant quote through our website — our team will respond within 2 hours.</div>
+            </div>
+        </section>
 
-<footer>
-    <div class="logo" style="justify-content: center; display: flex; margin-bottom: 1rem;">LOGISTIQO</div>
-    <p>© 2025 — Smart logistics · Global reach · Real-time insights</p>
-</footer>
+        <!-- READY TO MOVE + 24/7 TRACKING  -->
+        <section class="cta-section">
+            <h2>READY TO MOVE YOUR BUSINESS FORWARD?</h2>
+            <p>Every business is different. We tailor logistics strategies that fit your timeline, budget, and requirements.</p>
+            <a href="#" class="cta-button">GET A QUOTE →</a>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <span><i class="fas fa-headset"></i> 24/7 Tracking & Support</span>
+                <span><i class="fas fa-calendar-alt"></i> LET’S PLAN YOUR NEXT DELIVERY</span>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="logo" style="font-size: 2rem;">LOGISTIQO</div>
+        <p>© 2025 — INTELLIGENT LOGISTICS. All rights reserved.</p>
+        <p style="margin-top: 1rem;"><i class="fas fa-ship"></i> <i class="fas fa-truck-fast"></i> Global expertise, local care</p>
+    </footer>
 
-<script>
-    // 1. Анимация появления при скролле
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.2 });
-    animatedElements.forEach(el => observer.observe(el));
-
-    // 2. FAQ аккордеон
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('active');
-        });
-    });
-
-    // 3. ✨ ГЛАВНЫЙ ЭФФЕКТ: магические блоки исчезают при скролле (уползают в стороны / размытие)
-    const magicItems = document.querySelectorAll('.magic-item');
-    function updateMagicEffects() {
-        const windowHeight = window.innerHeight;
-        magicItems.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            const centerY = rect.top + rect.height/2;
-            const viewportCenter = windowHeight / 2;
-            let distance = Math.abs(centerY - viewportCenter);
-            let progress = Math.min(1, distance / (windowHeight * 0.6));
-            const effect = item.getAttribute('data-effect');
-            
-            if (progress > 0.05) {
-                if(effect === 'left') {
-                    let shift = -progress * 180;
-                    item.style.transform = `translateX(${shift}px) rotate(${-progress * 30}deg)`;
-                    item.style.opacity = 1 - progress * 1.2;
-                    item.style.filter = `blur(${progress * 8}px)`;
-                } else if(effect === 'blur') {
-                    item.style.filter = `blur(${progress * 15}px)`;
-                    item.style.opacity = 1 - progress * 1.2;
-                    item.style.transform = `scale(${1 - progress * 0.3})`;
-                } else if(effect === 'scale') {
-                    item.style.transform = `scale(${1 - progress * 0.7})`;
-                    item.style.opacity = 1 - progress * 1.2;
-                } else {
-                    item.style.opacity = 1 - progress;
+    <script>
+        // Анимация при скролле (все блоки с классом animate-on-scroll)
+        const animatedElements = document.querySelectorAll('.service-card, .why-content, .testimonial-card, .faq-item, .stat');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if(entry.target.classList.contains('service-card')) entry.target.style.transform = 'translateY(0)';
+                    if(entry.target.classList.contains('faq-item')) entry.target.style.opacity = '1';
                 }
-                if(progress > 0.95) item.style.pointerEvents = 'none';
-                else item.style.pointerEvents = 'auto';
-            } else {
-                item.style.transform = '';
-                item.style.opacity = '';
-                item.style.filter = '';
-                item.style.pointerEvents = 'auto';
-            }
+            });
+        }, { threshold: 0.2 });
+        animatedElements.forEach(el => {
+            el.classList.add('animate-on-scroll');
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            observer.observe(el);
         });
-    }
-    window.addEventListener('scroll', () => requestAnimationFrame(updateMagicEffects));
-    window.addEventListener('resize', updateMagicEffects);
-    updateMagicEffects();
+        // Отдельно hero
+        document.querySelector('.hero-content').style.animation = 'fadeUp 0.8s ease forwards';
+        document.querySelector('.hero-image').style.animation = 'slideInRight 0.8s ease forwards';
 
-    // Кнопка сброса магии
-    const resetStats = document.getElementById('resetStatsBtn');
-    resetStats?.addEventListener('click', () => {
-        magicItems.forEach(item => {
-            item.style.transform = '';
-            item.style.opacity = '';
-            item.style.filter = '';
-            item.style.pointerEvents = 'auto';
+        // FAQ аккордеон динамичный
+        const faqs = document.querySelectorAll('.faq-item');
+        faqs.forEach(item => {
+            const questionDiv = item.querySelector('.faq-question');
+            questionDiv.addEventListener('click', () => {
+                item.classList.toggle('active');
+                const span = questionDiv.querySelector('span');
+                span.textContent = item.classList.contains('active') ? '−' : '+';
+            });
         });
-        setTimeout(updateMagicEffects, 50);
-    });
 
-    // Кнопки "Get a quote" — алерт (можно заменить на форму)
-    const btns = document.querySelectorAll('#getQuoteBtn, #ctaBtn');
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            alert('🚀 Спасибо! Форма запроса появится здесь. Ваш персональный менеджер свяжется с вами.');
+        // Плавный скролл для кнопки Get a Quote (пример)
+        const quoteBtn = document.querySelector('.hero-content button');
+        if(quoteBtn) {
+            quoteBtn.addEventListener('click', () => {
+                document.querySelector('.cta-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+        // Дополнительный эффект при наведении на карточки статистики
+        const stats = document.querySelectorAll('.stat');
+        stats.forEach(stat => {
+            stat.addEventListener('mouseenter', () => stat.style.transform = 'scale(1.04)');
+            stat.addEventListener('mouseleave', () => stat.style.transform = 'scale(1)');
         });
-    });
-    
-    // Доп. плавный скролл для навигации
-    document.querySelectorAll('.nav-links a').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
-            if(target) target.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-    
-    console.log('LOGISTIQO — продвинутый сайт с магией исчезновения');
-</script>
+    </script>
 </body>
 </html>
