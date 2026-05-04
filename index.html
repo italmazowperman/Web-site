@@ -33,32 +33,20 @@
             border-radius: 10px;
         }
 
+        /* Фокус-стили для доступности */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #1e3a5f;
+            outline-offset: 2px;
+        }
+
         /* Анимации появления */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(35px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-60px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(60px); }
             to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes scaleGlow {
-            0% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-            50% { box-shadow: 0 20px 35px rgba(30,58,95,0.15); }
-            100% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translate(0, 0) !important;
         }
 
         /* Хедер с блюром */
@@ -66,14 +54,14 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(12px);
             z-index: 1000;
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
             border-bottom: 1px solid rgba(30,58,95,0.1);
         }
         .logo {
@@ -105,6 +93,63 @@
         }
         .contact-btn:hover { background: #0f2a46; transform: scale(1.02); }
 
+        /* Бургер-меню для мобильных */
+        .burger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #1e3a5f;
+        }
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 5rem 2rem;
+            transition: 0.3s ease;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+        }
+        .mobile-menu.active {
+            right: 0;
+        }
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            text-decoration: none;
+            color: #1f2a44;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+        .close-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+        .overlay.active {
+            display: block;
+        }
+
         /* Hero секция */
         .hero {
             min-height: 100vh;
@@ -113,14 +158,14 @@
             padding: 7rem 5% 5rem;
             background: linear-gradient(125deg, #ffffff 40%, #eef3fc 100%);
             position: relative;
-            overflow: hidden;
+            gap: 2rem;
         }
         .hero-content {
             flex: 1;
             animation: fadeUp 0.9s ease-out;
         }
         .hero-content h1 {
-            font-size: clamp(2.6rem, 6vw, 4.8rem);
+            font-size: clamp(2rem, 6vw, 4.8rem);
             font-weight: 800;
             line-height: 1.2;
             background: linear-gradient(to right, #0b2b44, #1b5a8c);
@@ -129,87 +174,88 @@
             color: transparent;
         }
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin: 1.5rem 0;
             color: #2c3e50;
             max-width: 550px;
         }
         .hero-stats {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             margin-top: 2rem;
+            flex-wrap: wrap;
         }
         .stat {
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1rem;
         }
-        .stat span { font-size: 2.2rem; color: #1e3a5f; }
+        .stat span { font-size: 2rem; color: #1e3a5f; display: block; }
         .hero-image {
             flex: 1;
             text-align: center;
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
             animation: slideInRight 0.8s ease;
         }
-        .hero-image i { font-size: 18rem; color: #1e3a5f; opacity: 0.2; }
+        .hero-image i { font-size: 13rem; color: #1e3a5f; opacity: 0.8; }
 
         /* Секция услуг */
         .services {
-            padding: 6rem 5%;
+            padding: 5rem 5%;
             text-align: center;
             background: #ffffff;
         }
-        .services h2, .testimonials h2, .faq h2, .cta h2 {
-            font-size: 2.8rem;
+        .services h2, .testimonials h2, .faq h2 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             margin-bottom: 1rem;
         }
         .services-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             margin-top: 3rem;
         }
         .service-card {
             background: white;
-            padding: 2rem;
-            border-radius: 2rem;
-            width: 260px;
+            padding: 2rem 1.5rem;
+            border-radius: 1.5rem;
+            width: 250px;
             box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
             transition: all 0.35s ease;
             border: 1px solid rgba(0,0,0,0.05);
         }
-        .service-card:hover { transform: translateY(-12px); box-shadow: 0 30px 40px -15px rgba(30,58,95,0.2); }
-        .service-card i { font-size: 2.8rem; color: #1e3a5f; margin-bottom: 1rem; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 30px 40px -15px rgba(30,58,95,0.2); }
+        .service-card i { font-size: 2.5rem; color: #1e3a5f; margin-bottom: 1rem; }
 
         /* Почему выбирают нас */
         .why-us {
             background: #f7fafd;
-            padding: 5rem 5%;
+            padding: 4rem 5%;
             display: flex;
             flex-wrap: wrap;
-            gap: 3rem;
+            gap: 2rem;
             align-items: center;
         }
         .why-content { flex: 1; }
-        .why-numbers { display: flex; gap: 2rem; margin-top: 2rem; }
+        .why-numbers { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
-        /* Отзывы с каруселью */
+        /* Отзывы */
         .testimonials {
-            padding: 5rem 5%;
+            padding: 4rem 5%;
             background: white;
         }
         .testimonial-grid {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             padding: 1rem 0.5rem;
         }
         .testimonial-card {
-            min-width: 320px;
+            min-width: 280px;
             background: #ffffff;
-            border-radius: 2rem;
-            padding: 2rem;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
             box-shadow: 0 12px 28px rgba(0,0,0,0.07);
             scroll-snap-align: start;
             border: 1px solid #eef2f8;
@@ -217,27 +263,27 @@
 
         /* FAQ */
         .faq {
-            padding: 5rem 5%;
+            padding: 4rem 5%;
             background: #f9fcff;
         }
         .faq-item {
             background: white;
             margin: 1rem auto;
             max-width: 900px;
-            border-radius: 1.2rem;
-            padding: 1.2rem 2rem;
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
             cursor: pointer;
             transition: 0.2s;
         }
-        .faq-question { font-weight: 700; font-size: 1.2rem; display: flex; justify-content: space-between; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: #4a5568; }
-        .faq-item.active .faq-answer { max-height: 120px; margin-top: 1rem; }
+        .faq-question { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease; color: #4a5568; }
+        .faq-item.active .faq-answer { max-height: 200px; margin-top: 1rem; }
 
-        /* CTA + финальные блоки */
+        /* CTA */
         .cta-section {
             background: linear-gradient(115deg, #1e2f44, #102433);
             color: white;
-            padding: 4rem 5%;
+            padding: 3rem 5%;
             text-align: center;
         }
         .cta-button {
@@ -249,24 +295,53 @@
             margin-top: 1.5rem;
             color: #1e2f44;
             transition: 0.2s;
+            text-decoration: none;
         }
+        .cta-button:hover { transform: translateY(-2px); background: #ffaa33; }
+        
         footer {
             background: #0a1822;
             color: #cddfe7;
-            padding: 3rem 5%;
+            padding: 2rem 5%;
             text-align: center;
         }
 
-        @media (max-width: 800px) {
-            .hero { flex-direction: column; text-align: center; gap: 2rem; }
-            .nav-links { display: none; }
+        /* Анимации скролла */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Адаптив */
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; }
+            .hero p { margin-left: auto; margin-right: auto; }
             .hero-stats { justify-content: center; }
+            .nav-links { display: none; }
+            .burger { display: block; }
+            .hero-image i { font-size: 10rem; }
+            .services, .why-us, .testimonials, .faq { padding: 3rem 5%; }
+            .cta-section div { flex-direction: column; gap: 1rem !important; }
+        }
+
+        @media (max-width: 600px) {
+            .stat span { font-size: 1.5rem; }
+            .hero-stats { gap: 1rem; }
+            .service-card { width: 100%; max-width: 280px; }
+            .testimonial-card { min-width: 260px; }
+            .faq-question { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">LOGISTIQO</div>
+        <button class="burger" aria-label="Меню">☰</button>
         <div class="nav-links">
             <a href="#">Home</a>
             <a href="#">About</a>
@@ -276,25 +351,33 @@
         </div>
     </header>
 
+    <div class="mobile-menu">
+        <button class="close-menu" aria-label="Закрыть">✕</button>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Discover</a>
+        <a href="#">Destinations</a>
+        <a href="#" class="contact-btn" style="display: inline-block; margin-top: 1rem;">Contact</a>
+    </div>
+    <div class="overlay"></div>
+
     <main>
-        <!-- HERO -->
         <section class="hero">
             <div class="hero-content">
                 <h1>TAKE YOUR SHIPPING TO THE NEXT LEVEL</h1>
                 <p>Simplify logistics, reduce costs, and deliver faster with our all-in-one shipping management platform.</p>
                 <div class="hero-stats">
-                    <div class="stat"><span>15+</span> YR <br>of expertise</div>
-                    <div class="stat"><span>30+</span> CO <br>Countries Covered</div>
-                    <div class="stat"><span>60K+</span> TN <br>Cargo worldwide</div>
+                    <div class="stat"><span>15+</span> YR of expertise</div>
+                    <div class="stat"><span>30+</span> CO Countries Covered</div>
+                    <div class="stat"><span>60K+</span> TN Cargo worldwide</div>
                 </div>
-                <button style="margin-top: 2rem; background:#1e3a5f; border:none; padding:12px 32px; border-radius:40px; color:white; font-weight:600;">Get a Quote →</button>
+                <a href="#" class="cta-button" style="display: inline-block; margin-top: 2rem; background:#1e3a5f; color:white;">Get a Quote →</a>
             </div>
             <div class="hero-image">
                 <i class="fas fa-ship"></i>
             </div>
         </section>
 
-        <!-- OUR SERVICES -->
         <section class="services">
             <p style="color:#1e3a5f; font-weight:600;">OUR SERVICES #1</p>
             <h2>EXPLORE OUR SERVICES</h2>
@@ -306,7 +389,6 @@
             </div>
         </section>
 
-        <!-- WHY BUSINESSES CHOOSE US -->
         <section class="why-us">
             <div class="why-content">
                 <h2>WHY BUSINESSES CHOOSE US FOR THEIR LOGISTICS & SHIPPING</h2>
@@ -317,10 +399,9 @@
                 </div>
                 <p style="margin-top:1rem;">— Dina A Qureshi</p>
             </div>
-            <div style="flex:1; text-align:center;"><i class="fas fa-chart-line" style="font-size:12rem; color:#cddfe7;"></i></div>
+            <div style="flex:1; text-align:center;"><i class="fas fa-chart-line" style="font-size:8rem; color:#cddfe7;"></i></div>
         </section>
 
-        <!-- WHAT OUR CLIENTS SAY + ЛОГОТИПЫ -->
         <section class="testimonials">
             <h2>WHAT OUR CLIENTS SAY</h2>
             <p style="margin-bottom:2rem;">WORDS FROM THE ONES WHO KNOW US BEST</p>
@@ -344,7 +425,6 @@
             </div>
         </section>
 
-        <!-- FREQUENTLY ASKED QUESTIONS -->
         <section class="faq">
             <h2>FREQUENTLY ASKED QUESTIONS</h2>
             <div class="faq-item">
@@ -357,7 +437,7 @@
             </div>
             <div class="faq-item">
                 <div class="faq-question">🔍 How do I track my shipment? <span>+</span></div>
-                <div class="faq-answer">You’ll receive a unique tracking ID after dispatch. Use it for real-time updates on location and delivery status.</div>
+                <div class="faq-answer">You'll receive a unique tracking ID after dispatch. Use it for real-time updates on location and delivery status.</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">⚡ How fast can I get a shipping quote? <span>+</span></div>
@@ -365,14 +445,13 @@
             </div>
         </section>
 
-        <!-- READY TO MOVE + 24/7 TRACKING  -->
         <section class="cta-section">
             <h2>READY TO MOVE YOUR BUSINESS FORWARD?</h2>
             <p>Every business is different. We tailor logistics strategies that fit your timeline, budget, and requirements.</p>
             <a href="#" class="cta-button">GET A QUOTE →</a>
-            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
                 <span><i class="fas fa-headset"></i> 24/7 Tracking & Support</span>
-                <span><i class="fas fa-calendar-alt"></i> LET’S PLAN YOUR NEXT DELIVERY</span>
+                <span><i class="fas fa-calendar-alt"></i> LET'S PLAN YOUR NEXT DELIVERY</span>
             </div>
         </section>
     </main>
@@ -383,28 +462,28 @@
     </footer>
 
     <script>
-        // Анимация при скролле (все блоки с классом animate-on-scroll)
+        // Анимация при скролле (исправлено)
         const animatedElements = document.querySelectorAll('.service-card, .why-content, .testimonial-card, .faq-item, .stat');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    if(entry.target.classList.contains('service-card')) entry.target.style.transform = 'translateY(0)';
-                    if(entry.target.classList.contains('faq-item')) entry.target.style.opacity = '1';
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        
         animatedElements.forEach(el => {
             el.classList.add('animate-on-scroll');
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
             observer.observe(el);
         });
-        // Отдельно hero
-        document.querySelector('.hero-content').style.animation = 'fadeUp 0.8s ease forwards';
-        document.querySelector('.hero-image').style.animation = 'slideInRight 0.8s ease forwards';
 
-        // FAQ аккордеон динамичный
+        // Hero анимации
+        const heroContent = document.querySelector('.hero-content');
+        const heroImage = document.querySelector('.hero-image');
+        if(heroContent) heroContent.style.animation = 'fadeUp 0.8s ease forwards';
+        if(heroImage) heroImage.style.animation = 'slideInRight 0.8s ease forwards';
+
+        // FAQ
         const faqs = document.querySelectorAll('.faq-item');
         faqs.forEach(item => {
             const questionDiv = item.querySelector('.faq-question');
@@ -415,18 +494,49 @@
             });
         });
 
-        // Плавный скролл для кнопки Get a Quote (пример)
-        const quoteBtn = document.querySelector('.hero-content button');
-        if(quoteBtn) {
-            quoteBtn.addEventListener('click', () => {
-                document.querySelector('.cta-section').scrollIntoView({ behavior: 'smooth' });
-            });
+        // Бургер-меню
+        const burger = document.querySelector('.burger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+        const closeMenu = document.querySelector('.close-menu');
+        
+        function openMenu() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-        // Дополнительный эффект при наведении на карточки статистики
+        
+        function closeMenuFunc() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if(burger) burger.addEventListener('click', openMenu);
+        if(closeMenu) closeMenu.addEventListener('click', closeMenuFunc);
+        if(overlay) overlay.addEventListener('click', closeMenuFunc);
+        
+        // Закрытие по нажатию Esc
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMenuFunc();
+            }
+        });
+
+        // Плавный скролл для CTA кнопок
+        const allCtaBtns = document.querySelectorAll('.cta-button');
+        allCtaBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.cta-section')?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // Эффекты наведения для тач-устройств
         const stats = document.querySelectorAll('.stat');
         stats.forEach(stat => {
-            stat.addEventListener('mouseenter', () => stat.style.transform = 'scale(1.04)');
-            stat.addEventListener('mouseleave', () => stat.style.transform = 'scale(1)');
+            stat.addEventListener('touchstart', () => stat.style.transform = 'scale(1.04)');
+            stat.addEventListener('touchend', () => stat.style.transform = 'scale(1)');
         });
     </script>
 </body>
