@@ -33,13 +33,13 @@
             border-radius: 10px;
         }
 
-        /* Фокус-стили для доступности */
+        /* Фокус-стили */
         a:focus-visible, button:focus-visible {
             outline: 2px solid #1e3a5f;
             outline-offset: 2px;
         }
 
-        /* Анимации появления */
+        /* Анимации */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(35px); }
             to { opacity: 1; transform: translateY(0); }
@@ -48,8 +48,12 @@
             from { opacity: 0; transform: translateX(60px); }
             to { opacity: 1; transform: translateX(0); }
         }
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
 
-        /* Хедер с блюром */
+        /* Хедер */
         .header {
             position: fixed;
             top: 0;
@@ -71,7 +75,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
         }
         .nav-links {
             display: flex;
@@ -89,11 +92,10 @@
             color: white !important;
             padding: 8px 22px;
             border-radius: 40px;
-            transition: 0.2s;
         }
         .contact-btn:hover { background: #0f2a46; transform: scale(1.02); }
 
-        /* Бургер-меню для мобильных */
+        /* Бургер-меню */
         .burger {
             display: none;
             font-size: 1.8rem;
@@ -114,11 +116,8 @@
             z-index: 1001;
             padding: 5rem 2rem;
             transition: 0.3s ease;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
         }
-        .mobile-menu.active {
-            right: 0;
-        }
+        .mobile-menu.active { right: 0; }
         .mobile-menu a {
             display: block;
             padding: 1rem 0;
@@ -146,37 +145,46 @@
             z-index: 1000;
             display: none;
         }
-        .overlay.active {
-            display: block;
-        }
+        .overlay.active { display: block; }
 
-        /* Hero секция */
+        /* Hero с ярким фоном */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             padding: 7rem 5% 5rem;
-            background: linear-gradient(125deg, #ffffff 40%, #eef3fc 100%);
             position: relative;
+            background: linear-gradient(135deg, #0a1928 0%, #1a3a5f 100%);
+            color: white;
             gap: 2rem;
         }
-        .hero-content {
-            flex: 1;
-            animation: fadeUp 0.9s ease-out;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2070&auto=format');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.35;
+            z-index: 0;
+            animation: slowZoom 20s ease-in-out infinite alternate;
+        }
+        .hero-content, .hero-image {
+            position: relative;
+            z-index: 2;
         }
         .hero-content h1 {
             font-size: clamp(2rem, 6vw, 4.8rem);
             font-weight: 800;
             line-height: 1.2;
-            background: linear-gradient(to right, #0b2b44, #1b5a8c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
         }
         .hero p {
             font-size: 1.1rem;
             margin: 1.5rem 0;
-            color: #2c3e50;
+            opacity: 0.9;
             max-width: 550px;
         }
         .hero-stats {
@@ -185,59 +193,63 @@
             margin-top: 2rem;
             flex-wrap: wrap;
         }
-        .stat {
-            font-weight: 800;
-            font-size: 1rem;
-        }
-        .stat span { font-size: 2rem; color: #1e3a5f; display: block; }
-        .hero-image {
-            flex: 1;
-            text-align: center;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
-            animation: slideInRight 0.8s ease;
-        }
-        .hero-image i { font-size: 13rem; color: #1e3a5f; opacity: 0.8; }
+        .stat span { font-size: 2rem; font-weight: 800; display: block; color: #ffb347; }
+        .hero-image i { font-size: 12rem; color: rgba(255,255,255,0.2); text-shadow: 0 0 20px rgba(0,0,0,0.3); }
 
-        /* Секция услуг */
+        /* Секция услуг с картинками */
         .services {
             padding: 5rem 5%;
             text-align: center;
             background: #ffffff;
         }
-        .services h2, .testimonials h2, .faq h2 {
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
-            margin-bottom: 1rem;
-        }
         .services-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             margin-top: 3rem;
         }
         .service-card {
             background: white;
-            padding: 2rem 1.5rem;
             border-radius: 1.5rem;
-            width: 250px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
-            transition: all 0.35s ease;
-            border: 1px solid rgba(0,0,0,0.05);
+            width: 280px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
         }
-        .service-card:hover { transform: translateY(-8px); box-shadow: 0 30px 40px -15px rgba(30,58,95,0.2); }
-        .service-card i { font-size: 2.5rem; color: #1e3a5f; margin-bottom: 1rem; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 30px 45px -15px rgba(0,0,0,0.2); }
+        .service-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        .service-card:nth-child(1) .service-img { background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format'); }
+        .service-card:nth-child(2) .service-img { background-image: url('https://images.unsplash.com/photo-1601584115190-04e8f2daee0a?q=80&w=2070&auto=format'); }
+        .service-card:nth-child(3) .service-img { background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format'); }
+        .service-card:nth-child(4) .service-img { background-image: url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?q=80&w=2070&auto=format'); }
+        .service-card h3, .service-card p { padding: 0 1.2rem; }
+        .service-card h3 { margin: 1rem 0 0.5rem; }
+        .service-card p { margin-bottom: 1.5rem; color: #4a5568; }
 
-        /* Почему выбирают нас */
+        /* Why us с ярким фото */
         .why-us {
-            background: #f7fafd;
+            background: linear-gradient(115deg, #f7fafd 0%, #eef2f8 100%);
             padding: 4rem 5%;
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 3rem;
             align-items: center;
         }
+        .why-image {
+            flex: 1;
+            height: 400px;
+            border-radius: 2rem;
+            background-image: url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070&auto=format');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+        }
         .why-content { flex: 1; }
-        .why-numbers { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
         /* Отзывы */
         .testimonials {
@@ -246,25 +258,23 @@
         }
         .testimonial-grid {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             overflow-x: auto;
-            scroll-snap-type: x mandatory;
             padding: 1rem 0.5rem;
         }
         .testimonial-card {
-            min-width: 280px;
-            background: #ffffff;
+            min-width: 300px;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
             border-radius: 1.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.07);
-            scroll-snap-align: start;
-            border: 1px solid #eef2f8;
+            padding: 1.8rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         /* FAQ */
         .faq {
             padding: 4rem 5%;
-            background: #f9fcff;
+            background: linear-gradient(135deg, #f9fcff 0%, #f0f4fa 100%);
         }
         .faq-item {
             background: white;
@@ -274,17 +284,33 @@
             padding: 1rem 1.5rem;
             cursor: pointer;
             transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
-        .faq-question { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease; color: #4a5568; }
+        .faq-question { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: #4a5568; }
         .faq-item.active .faq-answer { max-height: 200px; margin-top: 1rem; }
 
-        /* CTA */
+        /* CTA с яркой картинкой */
         .cta-section {
             background: linear-gradient(115deg, #1e2f44, #102433);
             color: white;
             padding: 3rem 5%;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2070&auto=format');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            pointer-events: none;
         }
         .cta-button {
             background: #ffb347;
@@ -294,10 +320,10 @@
             display: inline-block;
             margin-top: 1.5rem;
             color: #1e2f44;
-            transition: 0.2s;
             text-decoration: none;
+            transition: 0.2s;
         }
-        .cta-button:hover { transform: translateY(-2px); background: #ffaa33; }
+        .cta-button:hover { background: #ffaa33; transform: translateY(-2px); }
         
         footer {
             background: #0a1822;
@@ -324,17 +350,12 @@
             .hero-stats { justify-content: center; }
             .nav-links { display: none; }
             .burger { display: block; }
-            .hero-image i { font-size: 10rem; }
-            .services, .why-us, .testimonials, .faq { padding: 3rem 5%; }
+            .why-image { height: 300px; }
             .cta-section div { flex-direction: column; gap: 1rem !important; }
         }
-
         @media (max-width: 600px) {
-            .stat span { font-size: 1.5rem; }
-            .hero-stats { gap: 1rem; }
-            .service-card { width: 100%; max-width: 280px; }
+            .service-card { width: 100%; max-width: 320px; margin: 0 auto; }
             .testimonial-card { min-width: 260px; }
-            .faq-question { font-size: 1rem; }
         }
     </style>
 </head>
@@ -362,6 +383,7 @@
     <div class="overlay"></div>
 
     <main>
+        <!-- Hero с ярким фоном -->
         <section class="hero">
             <div class="hero-content">
                 <h1>TAKE YOUR SHIPPING TO THE NEXT LEVEL</h1>
@@ -371,172 +393,104 @@
                     <div class="stat"><span>30+</span> CO Countries Covered</div>
                     <div class="stat"><span>60K+</span> TN Cargo worldwide</div>
                 </div>
-                <a href="#" class="cta-button" style="display: inline-block; margin-top: 2rem; background:#1e3a5f; color:white;">Get a Quote →</a>
+                <a href="#" class="cta-button" style="background: #ffb347; color:#1e2f44;">Get a Quote →</a>
             </div>
             <div class="hero-image">
-                <i class="fas fa-ship"></i>
+                <i class="fas fa-globe-americas"></i>
             </div>
         </section>
 
+        <!-- Услуги с картинками -->
         <section class="services">
             <p style="color:#1e3a5f; font-weight:600;">OUR SERVICES #1</p>
             <h2>EXPLORE OUR SERVICES</h2>
             <div class="services-grid">
-                <div class="service-card"><i class="fas fa-plane"></i><h3>Air Freight</h3><p>Fast global air cargo</p></div>
-                <div class="service-card"><i class="fas fa-truck"></i><h3>Road Transport</h3><p>Reliable land delivery</p></div>
-                <div class="service-card"><i class="fas fa-warehouse"></i><h3>Warehousing</h3><p>Smart storage solutions</p></div>
-                <div class="service-card"><i class="fas fa-passport"></i><h3>Customs Clearance</h3><p>Seamless border crossing</p></div>
+                <div class="service-card"><div class="service-img"></div><h3>✈️ Air Freight</h3><p>Fast global air cargo</p></div>
+                <div class="service-card"><div class="service-img"></div><h3>🚛 Road Transport</h3><p>Reliable land delivery</p></div>
+                <div class="service-card"><div class="service-img"></div><h3>🏭 Warehousing</h3><p>Smart storage solutions</p></div>
+                <div class="service-card"><div class="service-img"></div><h3>📋 Customs Clearance</h3><p>Seamless border crossing</p></div>
             </div>
         </section>
 
+        <!-- Why Us с фото -->
         <section class="why-us">
+            <div class="why-image"></div>
             <div class="why-content">
                 <h2>WHY BUSINESSES CHOOSE US FOR THEIR LOGISTICS & SHIPPING</h2>
                 <p>We deliver logistics solutions that move your business forward, simplifying shipping so you can focus on growth.</p>
-                <div class="why-numbers">
-                    <div><strong style="font-size:2rem;">99%</strong><br>Satisfaction</div>
-                    <div><strong style="font-size:2rem;">24/7</strong><br>Support</div>
+                <div class="why-numbers" style="display: flex; gap: 2rem; margin-top: 1.5rem;">
+                    <div><strong style="font-size:2rem; color:#1e3a5f;">99%</strong><br>Satisfaction</div>
+                    <div><strong style="font-size:2rem; color:#1e3a5f;">24/7</strong><br>Support</div>
                 </div>
-                <p style="margin-top:1rem;">— Dina A Qureshi</p>
+                <p style="margin-top:1rem;">— Dina A Qureshi, CEO</p>
             </div>
-            <div style="flex:1; text-align:center;"><i class="fas fa-chart-line" style="font-size:8rem; color:#cddfe7;"></i></div>
         </section>
 
+        <!-- Отзывы -->
         <section class="testimonials">
             <h2>WHAT OUR CLIENTS SAY</h2>
             <p style="margin-bottom:2rem;">WORDS FROM THE ONES WHO KNOW US BEST</p>
             <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <i class="fas fa-star" style="color:#ffb347;"></i> <strong>+99% Achieving Excellence</strong>
-                    <p>"Working with LOGISTIQO felt like building with a creative partner. Every visual, every word just hit right."</p>
-                    <h4>David Wilson</h4>
-                    <small>Business Consultant</small>
-                </div>
-                <div class="testimonial-card">
-                    <i class="fas fa-building"></i>
-                    <p>"Reliable, fast, transparent. They transformed our supply chain."</p>
-                    <h4>MGM Logistics</h4>
-                </div>
-                <div class="testimonial-card">
-                    <i class="fas fa-globe"></i>
-                    <p>"Global coverage with local care. Highly recommend."</p>
-                    <h4>Epicurious</h4>
-                </div>
+                <div class="testimonial-card"><i class="fas fa-star" style="color:#ffb347;"></i> <strong>+99% Achieving Excellence</strong><p>"Working with LOGISTIQO felt like building with a creative partner. Every visual, every word just hit right."</p><h4>David Wilson</h4><small>Business Consultant</small></div>
+                <div class="testimonial-card"><i class="fas fa-building"></i><p>"Reliable, fast, transparent. They transformed our supply chain."</p><h4>MGM Logistics</h4></div>
+                <div class="testimonial-card"><i class="fas fa-globe"></i><p>"Global coverage with local care. Highly recommend."</p><h4>Epicurious</h4></div>
             </div>
         </section>
 
+        <!-- FAQ -->
         <section class="faq">
             <h2>FREQUENTLY ASKED QUESTIONS</h2>
-            <div class="faq-item">
-                <div class="faq-question">📦 What services does LOGISTIQO provide? <span>+</span></div>
-                <div class="faq-answer">We offer full-service logistics including door freight, air cargo, road transport, warehousing, and customs clearance.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">🌍 Do you handle international shipments? <span>+</span></div>
-                <div class="faq-answer">Absolutely. We operate across 35+ countries with trusted partners, ensuring end-to-end global logistics support.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">🔍 How do I track my shipment? <span>+</span></div>
-                <div class="faq-answer">You'll receive a unique tracking ID after dispatch. Use it for real-time updates on location and delivery status.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">⚡ How fast can I get a shipping quote? <span>+</span></div>
-                <div class="faq-answer">Request an instant quote through our website — our team will respond within 2 hours.</div>
-            </div>
+            <div class="faq-item"><div class="faq-question">📦 What services does LOGISTIQO provide? <span>+</span></div><div class="faq-answer">We offer full-service logistics including door freight, air cargo, road transport, warehousing, and customs clearance.</div></div>
+            <div class="faq-item"><div class="faq-question">🌍 Do you handle international shipments? <span>+</span></div><div class="faq-answer">Absolutely. We operate across 35+ countries with trusted partners, ensuring end-to-end global logistics support.</div></div>
+            <div class="faq-item"><div class="faq-question">🔍 How do I track my shipment? <span>+</span></div><div class="faq-answer">You'll receive a unique tracking ID after dispatch. Use it for real-time updates on location and delivery status.</div></div>
+            <div class="faq-item"><div class="faq-question">⚡ How fast can I get a shipping quote? <span>+</span></div><div class="faq-answer">Request an instant quote through our website — our team will respond within 2 hours.</div></div>
         </section>
 
+        <!-- CTA -->
         <section class="cta-section">
             <h2>READY TO MOVE YOUR BUSINESS FORWARD?</h2>
             <p>Every business is different. We tailor logistics strategies that fit your timeline, budget, and requirements.</p>
             <a href="#" class="cta-button">GET A QUOTE →</a>
-            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                <span><i class="fas fa-headset"></i> 24/7 Tracking & Support</span>
-                <span><i class="fas fa-calendar-alt"></i> LET'S PLAN YOUR NEXT DELIVERY</span>
-            </div>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;"><span><i class="fas fa-headset"></i> 24/7 Tracking & Support</span><span><i class="fas fa-calendar-alt"></i> LET'S PLAN YOUR NEXT DELIVERY</span></div>
         </section>
     </main>
     <footer>
         <div class="logo" style="font-size: 2rem;">LOGISTIQO</div>
         <p>© 2025 — INTELLIGENT LOGISTICS. All rights reserved.</p>
-        <p style="margin-top: 1rem;"><i class="fas fa-ship"></i> <i class="fas fa-truck-fast"></i> Global expertise, local care</p>
     </footer>
 
     <script>
-        // Анимация при скролле (исправлено)
+        // Анимация скролла
         const animatedElements = document.querySelectorAll('.service-card, .why-content, .testimonial-card, .faq-item, .stat');
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        animatedElements.forEach(el => { el.classList.add('animate-on-scroll'); observer.observe(el); });
         
-        animatedElements.forEach(el => {
-            el.classList.add('animate-on-scroll');
-            observer.observe(el);
-        });
-
         // Hero анимации
-        const heroContent = document.querySelector('.hero-content');
-        const heroImage = document.querySelector('.hero-image');
-        if(heroContent) heroContent.style.animation = 'fadeUp 0.8s ease forwards';
-        if(heroImage) heroImage.style.animation = 'slideInRight 0.8s ease forwards';
-
+        document.querySelector('.hero-content').style.animation = 'fadeUp 0.8s ease forwards';
+        document.querySelector('.hero-image').style.animation = 'slideInRight 0.8s ease forwards';
+        
         // FAQ
-        const faqs = document.querySelectorAll('.faq-item');
-        faqs.forEach(item => {
-            const questionDiv = item.querySelector('.faq-question');
-            questionDiv.addEventListener('click', () => {
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const q = item.querySelector('.faq-question');
+            q.addEventListener('click', () => {
                 item.classList.toggle('active');
-                const span = questionDiv.querySelector('span');
-                span.textContent = item.classList.contains('active') ? '−' : '+';
+                q.querySelector('span').textContent = item.classList.contains('active') ? '−' : '+';
             });
         });
-
+        
         // Бургер-меню
-        const burger = document.querySelector('.burger');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const overlay = document.querySelector('.overlay');
-        const closeMenu = document.querySelector('.close-menu');
+        const burger = document.querySelector('.burger'), mobileMenu = document.querySelector('.mobile-menu'), overlay = document.querySelector('.overlay');
+        function closeMenu() { mobileMenu.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+        burger?.addEventListener('click', () => { mobileMenu.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        document.querySelector('.close-menu')?.addEventListener('click', closeMenu);
+        overlay?.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMenu(); });
         
-        function openMenu() {
-            mobileMenu.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeMenuFunc() {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        if(burger) burger.addEventListener('click', openMenu);
-        if(closeMenu) closeMenu.addEventListener('click', closeMenuFunc);
-        if(overlay) overlay.addEventListener('click', closeMenuFunc);
-        
-        // Закрытие по нажатию Esc
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                closeMenuFunc();
-            }
-        });
-
-        // Плавный скролл для CTA кнопок
-        const allCtaBtns = document.querySelectorAll('.cta-button');
-        allCtaBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelector('.cta-section')?.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-        
-        // Эффекты наведения для тач-устройств
-        const stats = document.querySelectorAll('.stat');
-        stats.forEach(stat => {
-            stat.addEventListener('touchstart', () => stat.style.transform = 'scale(1.04)');
-            stat.addEventListener('touchend', () => stat.style.transform = 'scale(1)');
+        // Плавный скролл CTA
+        document.querySelectorAll('.cta-button').forEach(btn => {
+            btn.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('.cta-section')?.scrollIntoView({ behavior: 'smooth' }); });
         });
     </script>
 </body>
